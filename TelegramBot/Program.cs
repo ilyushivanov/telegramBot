@@ -1,4 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Telegram.Bot;
+using TelegramBot.Api.HostedServices;
+using TelegramBot.Application.Options;
 using TelegramBot.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,7 +9,23 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 
 services.AddOptions();
+services.AddControllers()
+    .AddNewtonsoftJson();
+
 services.AddDatabase(configuration);
+services.AddInfrastructureServices();
+
+services.Configure<TelegramBotOptions>(configuration.GetSection("TelegramBot"));
+
+// Регистрация телеграм бота
+builder.Services.AddHttpClient("TelegramBot")
+                .AddTypedClient<ITelegramBotClient>((httpClient, sp) =>
+                {
+                    var telegramBotOptions = configuration.GetSection("TelegramBot").Get<TelegramBotOptions>();
+                    TelegramBotClientOptions options = new(telegramBotOptions.Token);
+                    return new TelegramBotClient(options, httpClient);
+                });
+services.AddHostedService<TelegramBotHostedService>();
 
 var app = builder.Build();
 
@@ -21,11 +40,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapRazorPages();
+app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
 {
