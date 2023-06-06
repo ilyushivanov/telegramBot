@@ -2,7 +2,7 @@
 
 namespace TelegramBot.Application.Handlers.Abstractions
 {
-    public interface ICommandHandler
+    public interface ICalculateIsolationDataCommandHandler
     {
         Task HandleAsync(Message message, CancellationToken cancellationToken);
     }

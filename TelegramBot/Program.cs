@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Telegram.Bot;
 using TelegramBot.Api.HostedServices;
+using TelegramBot.Application;
 using TelegramBot.Application.Options;
 using TelegramBot.Infrastructure;
 
@@ -13,6 +14,7 @@ services.AddControllers()
     .AddNewtonsoftJson();
 
 services.AddDatabase(configuration);
+services.AddApplicationServices();
 services.AddInfrastructureServices();
 
 services.Configure<TelegramBotOptions>(configuration.GetSection("TelegramBot"));

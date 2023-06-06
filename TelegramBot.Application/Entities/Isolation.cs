@@ -2,10 +2,29 @@
 {
     public class Isolation : BaseEntity
     {
-        public decimal Width { get; set; }
+        /// <summary>
+        /// Ширина здания
+        /// </summary>
+        public int Width { get; set; }
 
-        public decimal Length { get; set; }
+        /// <summary>
+        /// Длина здания
+        /// </summary>
+        public int Length { get; set; }
 
+        /// <summary>
+        /// Высота подполья
+        /// </summary>
         public decimal PileHeight { get; set; }
+
+        /// <summary>
+        /// Толщина сэндвич панели
+        /// </summary>
+        public decimal PanelThickness { get; set; }
+
+        /// <summary>
+        /// Толщина цоколи
+        /// </summary>
+        public decimal PlinthThickness { get; set; }
     }
 }

@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
+using TelegramBot.Application.Handlers;
+using TelegramBot.Application.Handlers.Abstractions;
 
 namespace TelegramBot.Application
 {
-    internal class ApplicationServicesExtensions
+    public static class ApplicationServicesExtensions
     {
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        {
+            services.AddTransient<ICalculateIsolationDataCommandHandler, CalculateIsolationDataCommandHandler>();
+            return services;
+        }
     }
 }

@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Telegram.Bot;
 using Telegram.Bot.Types;
-using TelegramBot.Application;
-using TelegramBot.Application.Handlers;
 using TelegramBot.Application.Handlers.Abstractions; 
 
 namespace TelegramBot.Api.Controllers
@@ -10,17 +7,12 @@ namespace TelegramBot.Api.Controllers
     [Route("api/bot")]
     public class IsolationController : Controller
     {
-        private readonly Dictionary<string, ICommandHandler> _commandHandlers;
+        private readonly ICalculateIsolationDataCommandHandler _calculateIsolationDataCommandHandler;
 
         public IsolationController(
-            ITelegramBotClient telegramBotClient,
-            IDataContextProvider dataContextProvider)
+            ICalculateIsolationDataCommandHandler calculateIsolationDataCommandHandler)
         {
-            _commandHandlers = new Dictionary<string, ICommandHandler>
-            {
-                { "start", new StartCommandHandler(telegramBotClient) },
-                { "isolation", new GetIsolationDataCommandHandler(telegramBotClient, dataContextProvider) }
-            };
+            _calculateIsolationDataCommandHandler = calculateIsolationDataCommandHandler;
         }
 
         [HttpPost]
@@ -30,14 +22,7 @@ namespace TelegramBot.Api.Controllers
 
             var message = update.Message;
 
-            if (message.Text.Contains("/start"))
-            {
-                await _commandHandlers["start"].HandleAsync(message!, cancellationToken);
-            }
-            else
-            {
-                await _commandHandlers["isolation"].HandleAsync(message!, cancellationToken);
-            }
+            await _calculateIsolationDataCommandHandler.HandleAsync(message, cancellationToken);
 
             return Ok();
         }

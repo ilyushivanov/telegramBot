@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TelegramBot.Infrastructure;
@@ -11,9 +12,10 @@ using TelegramBot.Infrastructure;
 namespace TelegramBot.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230606134845_Add_Session")]
+    partial class Add_Session
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,8 +33,8 @@ namespace TelegramBot.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("Length")
-                        .HasColumnType("integer");
+                    b.Property<decimal>("Length")
+                        .HasColumnType("numeric");
 
                     b.Property<decimal>("PanelThickness")
                         .HasColumnType("numeric");
@@ -43,8 +45,8 @@ namespace TelegramBot.Infrastructure.Migrations
                     b.Property<decimal>("PlinthThickness")
                         .HasColumnType("numeric");
 
-                    b.Property<int>("Width")
-                        .HasColumnType("integer");
+                    b.Property<decimal>("Width")
+                        .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
@@ -63,17 +65,14 @@ namespace TelegramBot.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("Length")
-                        .HasColumnType("integer");
+                    b.Property<decimal>("Length")
+                        .HasColumnType("numeric");
 
                     b.Property<decimal>("PileHeight")
                         .HasColumnType("numeric");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Width")
-                        .HasColumnType("integer");
+                    b.Property<decimal>("Width")
+                        .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
